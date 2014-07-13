@@ -6,14 +6,25 @@
 # Jabber:   nath_schwarz@jabber.de
 
 #Get options
-while getopts t:p: opt
+while getopts t:p:h opt
 do
    case $opt in
-       t) templatename=$OPTARG;;
-       p) profilename=$OPTARG;;
+        t) templatename=$OPTARG;;
+        p) profilename=$OPTARG;;
+        h) printhelp=true;;
    esac
 done
 shift $((OPTIND-1))
+
+#Print help, then exit
+if [[ -n $printhelp ]]; then
+    printf "PaCoGen - passive code generator\n"
+    printf "\t-t\tName of the template to use\n"
+    printf "\t-p\tName of the profile to use\n"
+    printf "\t-h\tPrint this help\n"
+#    printf "\t-\t\n"
+    exit
+fi
 
 #Initiate default values for variables
 filename=$(echo "$1" | cut -d . -f 1)
