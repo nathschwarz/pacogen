@@ -1,5 +1,3 @@
 LICENSE="# GPLv2"
-AUTHORSHIP="# Author:
-# Mail:"
-CLASSDOC="# 
-#"
+AUTHORNAME="Some Name"
+AUTHORMAIL="some.name@gmail.com"

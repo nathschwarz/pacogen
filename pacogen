@@ -5,20 +5,32 @@
 # Github:   github.com/nathschwarz
 # Jabber:   nath_schwarz@jabber.de
 
+#Get options
+while getopts t:p: opt
+do
+   case $opt in
+       t) templatename=$OPTARG;;
+       p) profilename=$OPTARG;;
+   esac
+done
+shift $((OPTIND-1))
+
 #Initiate default values for variables
-filename=$(echo $1 | cut -d . -f 1)
-fileextension=$(echo $1 | cut -d . -f 2)
-templatename="template"
-profilename="default"
-
-
+filename=$(echo "$1" | cut -d . -f 1)
+FILENAME=$filename
+fileextension=$(echo "$1" | cut -d . -f 2)
+if [[ -z $templatename ]]; then
+    templatename="template"
+fi
+if [[ -z $profilename ]]; then
+    profilename="default"
+fi
 
 #Source profile-information
 source "$profilename".profile
+profilepresets=$(cut -s -d= -f1 "$profilename".profile)
 
-#Get the whole thing together
-printf "" > $1
-IFS=''
-while read line; do
-    printf "%s\n" $(eval echo "$line" 2>/dev/null || echo "$line") >> $1
-done < ~/prog/pacogen/templates/"$templatename"."$fileextension"
+cp ~/prog/pacogen/templates/"$templatename"."$fileextension" $1
+for profilepreset in $profilepresets; do
+    sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
+done
