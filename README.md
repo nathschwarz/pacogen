@@ -18,6 +18,8 @@ AUTHORSHIP="# Author: $AUTHORNAME\n# Mail: $AUTHORMAIL"
 ```
 As you can see you can define recurring variables and call them after defining - they work just like any other shell variables (as they are just shell variables). If you have a short version of your license (or generally a short license) you can even define this license and use `$(cat LICENSE)` or `$(cat SMALLLICENSE)`.
 
+Pacogen will use the file symlinked to default.profile, unless `-p` is defined.
+
 ##Templates
 Templates are extremely easy - they are just like your typical code file, just that you can call the variables defined in your profile. A python template would look something like this:
 ```shell
@@ -31,16 +33,17 @@ def main():
 if  __name__ =='__main__':
     main()
 ```
-So here, LICENSE and AUTHORSHIP will be replaced with the content defined in your profile-file. Want to create a class for java?
+So here, `LICENSE` and `AUTHORSHIP` will be replaced with the content defined in your profile-file. 
+Want to create a class for java?
 ```java
 LICENSE
 
 IMPORTS
 
-AUTHORSHIP
-
 /*
  * What is this class good for?
+ * @author AUTHORNAME
+ * @version 0.1
  */
 public class FILENAME {
     /*
@@ -52,3 +55,5 @@ public class FILENAME {
 }
 ```
 As you can see, the filename is being parsed from the input to pacogen and can be used as a variable for the template-files.
+
+Pacogen will choose `template.$fileextension`, unless `-t` is defined. In that case `$templatename.$fileextension` is being used. 
