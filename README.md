@@ -61,6 +61,68 @@ As you can see, the filename is being parsed from the input to PaCoGen and can b
 
 PaCoGen will choose `template.$fileextension`, unless `-t` is defined. In that case `$templatename.$fileextension` is being used. Valid input for `-t` are the files within the templates-folder.
 
+If a file `$templatename.$fileextension.end` is defined, this will concatenanted to the new file before the last variables are substituted. This is crucial for templates for e.g. java, which needs a closing curly bracket.
+
+##Functions
+You can also define template functions: `$functionname.function.$fileextensions`.
+These function templates can also inherit documentation, calls to profile variables and get either a generic name or make use of the `FUNCTIONNAME` variable.
+
+Lets look at an example, we have the template `template.java`:
+```java
+LICENSE
+
+/*
+ * What is this class good for?
+ * @author AUTHORNAME
+ * @version 0.1
+ */
+public class FILENAME {
+```
+And the end-file `template.java.end` containing just a `}`, and also the function files `main.function.java`:
+```java
+    /*
+     * Describe what's going on in the main-method.
+     */
+    public static void FUNCTIONNAME(String[] args) {
+         
+    }
+```
+and `get.function.java`:
+```java
+    /*
+     * Get FUNCTIONNAME.
+     */
+    public int getFUNCTIONNAME(String[] args) {
+        return FUNCTIONNAME;
+    }
+```
+See how the placeholder is directly together with the get? This comes into play in a mintue. Now we run the command `pcg -f main:main -f get:runner output.java` - and output.java now contains this:
+```java
+# GPLv2
+
+/*
+ * What is this class good for?
+ * @author Some Name
+ * @version 0.1
+ */
+public class test {
+
+    /*
+     * Describe what's going on in the main-method.
+     */
+    public static void main(String[] args) {
+
+    }
+    /*
+     * Get runner.
+     */
+    public int getrunner(String[] args) {
+        return runner;
+    }
+}
+```
+And you have a complete java-class prepared, ready to start coding!
+
 ##Define folders for profiles and templates
 If you want to use your own folders (e.g. because you are syncing your configuration-files via your own git), you can export the variables `PACOGEN_PROFILES` and `PACOGEN_TEMPLATES` in your shell configuration file:
 ```shell
@@ -78,4 +140,10 @@ All roads lead to rome:
 * copy `pcg` into your `.functionsrc`
 * ...
 
+    /*
+     * Get FUNCTIONNAME.
+     */
+    public int getFUNCTIONNAME(String[] args) {
+        return FUNCTIONNAME;
+    }
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
