@@ -1,0 +1,5 @@
+LICENSE="# Proprietary Stuff"
+AUTHORNAME="Some Name"
+AUTHORMAIL="some.name@companyname.com"
+AUTHORSHIP="# Author: $AUTHORNAME\n# Mail: $AUTHORMAIL"
+CLASSDOC="# Something to describe the class and bragging about bullshit the manager said"
