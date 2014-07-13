@@ -75,4 +75,5 @@ All roads lead to rome:
 * create an alias `alias="~/path/to/patogen/script"`
 * create a symlink from your `~/bin` to pcg
 * ...
+
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
