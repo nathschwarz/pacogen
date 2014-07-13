@@ -69,5 +69,10 @@ export PACOGEN_TEMPLATES="$HOME/path/to/templates"
 ```
 
 ##Use PaCoGen everywhere
-All roads lead to rome. Expand your PATH variable (`PATH="$PATH:$HOME/path/to/pacogen/folder/"`), copy `pcg` to your `~/bin` or `/usr/bin`, create an alias `alias="~/path/to/patogen/script"`, create a symlink from your `~/bin` to pcg, ...
+All roads lead to rome:
+* expand your PATH variable (`PATH="$PATH:$HOME/path/to/pacogen/folder/"`)
+* copy `pcg` to your `~/bin` or `/usr/bin`
+* create an alias `alias="~/path/to/patogen/script"`
+* create a symlink from your `~/bin` to pcg
+* ...
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
