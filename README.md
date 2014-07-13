@@ -138,10 +138,4 @@ All roads lead to rome:
 * copy `pcg` into your `.functionsrc`
 * ...
 
-    /*
-     * Get FUNCTIONNAME.
-     */
-    public int getFUNCTIONNAME(String[] args) {
-        return FUNCTIONNAME;
-    }
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
