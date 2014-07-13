@@ -15,6 +15,7 @@ do
         p) profilename=$OPTARG;;
         f) templatefuncs[$(echo "$OPTARG" | cut -d ':' -f 1)]=$(echo "$OPTARG" | cut -d ':' -f 2);; 
         h) printhelp=true;;
+        *) printf "Unkown parameter.\n"; printhelp=true;;
    esac
 done
 shift $((OPTIND-1))
@@ -24,14 +25,15 @@ if [[ -n $printhelp ]]; then
     printf "PaCoGen - passive code generator\n"
     printf "\t-t\tName of the template to use\n"
     printf "\t-p\tName of the profile to use\n"
+    printf "\t-f\tInclude a function: \$function:\$name\n"
     printf "\t-h\tPrint this help\n"
 #    printf "\t-\t\n"
     exit
 fi
 
 #Initiate default values for variables
-filename=$(echo "$1" | cut -d . -f 1)
-fileextension=$(echo "$1" | cut -d . -f 2)
+filename=${1%.*}
+fileextension=${1##*.}
 if [[ -z $templatename ]]; then
     templatename="template"
 fi
@@ -76,7 +78,7 @@ else
 
     cp "$templatefile" "$1"
     #Check for 'FILENAME' in template-file 
-    sed -e "s/FILENAME/$(echo $filename)/g" -i "$1"
+    sed -e "s/FILENAME/$filename/g" -i "$1"
 
     #If function-flag is set, replace FUNCTION-placeholder with functions
     if [[ -n "${templatefuncs[@]}" ]]; then
