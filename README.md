@@ -25,11 +25,30 @@ LICENSE
 
 AUTHORSHIP
 
-CLASSDOC
-
 def main():
     
 
 if  __name__ =='__main__':
     main()
 ```
+So here, LICENSE and AUTHORSHIP will be replaced with the content defined in your profile-file. Want to create a class for java?
+```java
+LICENSE
+
+IMPORTS
+
+AUTHORSHIP
+
+/*
+ * What is this class good for?
+ */
+public class FILENAME {
+    /*
+     * Describe what's going on in the main-method.
+     */
+    public static void main(String[] args) {
+         
+    }
+}
+```
+As you can see, the filename is being parsed from the input to pacogen and can be used as a variable for the template-files.
