@@ -44,10 +44,23 @@ if [[ -z $PACOGEN_TEMPLATES ]]; then
 fi
 
 #Source profile-information
-source "$PACOGEN_PROFILES"/"$profilename".profile
-profilepresets=$(cut -s -d= -f1 $PACOGEN_PROFILES/"$profilename".profile)
+profilefile="$PACOGEN_PROFILES"/"$profilename".profile 
+if [[ ! -e "$profilefile" ]]; then
+    printf "Profile file %s in %s not found, exiting.\n" "$profilename" "$PACOGEN_PROFILES"
+    exit
+else
+    source "$profilefile"
+    profilepresets=$(cut -s -d= -f1 "$profilefile")
+fi
 
-cp "$PACOGEN_TEMPLATES"/"$templatename"."$fileextension" "$1"
-for profilepreset in $profilepresets; do
-    sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
-done
+#Copy template file to target and replace placeholders with info
+templatefile="$PACOGEN_TEMPLATES"/"$templatename"."$fileextension"
+if [[ ! -e "$templatefile" ]]; then
+    printf "Template file %s in %s not found, exiting.\n" "$templatename" "$PACOGEN_TEMPLATES"
+    exit
+else
+    cp "$templatefile" "$1"
+    for profilepreset in $profilepresets; do
+        sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
+    done
+fi
