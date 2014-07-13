@@ -78,7 +78,7 @@ LICENSE
  */
 public class FILENAME {
 ```
-And the end-file `template.java.end` containing just a `}`, and also the function files `main.function.java`:
+The end-file `template.java.end` containing just a `}`, the function files `main.function.java`:
 ```java
     /*
      * Describe what's going on in the main-method.
