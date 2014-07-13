@@ -36,12 +36,18 @@ fi
 if [[ -z $profilename ]]; then
     profilename="default"
 fi
+if [[ -z $PACOGEN_PROFILES ]]; then
+    PACOGEN_PROFILES="~/pacogen"
+fi
+if [[ -z $PACOGEN_TEMPLATES ]]; then
+    PACOGEN_TEMPLATES="~/pacogen/templates"
+fi
 
 #Source profile-information
-source "$profilename".profile
-profilepresets=$(cut -s -d= -f1 "$profilename".profile)
+source "$PACOGEN_PROFILES"/"$profilename".profile
+profilepresets=$(cut -s -d= -f1 $PACOGEN_PROFILES/"$profilename".profile)
 
-cp ~/prog/pacogen/templates/"$templatename"."$fileextension" $1
+cp "$PACOGEN_TEMPLATES"/"$templatename"."$fileextension" "$1"
 for profilepreset in $profilepresets; do
     sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
 done
