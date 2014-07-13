@@ -5,12 +5,15 @@
 # Github:   github.com/nathschwarz
 # Jabber:   nath_schwarz@jabber.de
 
+#Initialize templatefuncs-dictionary
+declare -A templatefuncs
 #Get options
-while getopts t:p:h opt
+while getopts t:p:f:h opt
 do
    case $opt in
         t) templatename=$OPTARG;;
         p) profilename=$OPTARG;;
+        f) templatefuncs[$(echo "$OPTARG" | cut -d ':' -f 1)]=$(echo "$OPTARG" | cut -d ':' -f 2);; 
         h) printhelp=true;;
    esac
 done
@@ -70,9 +73,26 @@ else
             exit
         fi
     fi
+
     cp "$templatefile" "$1"
     #Check for 'FILENAME' in template-file 
     sed -e "s/FILENAME/$(echo $filename)/g" -i "$1"
+
+    #If function-flag is set, replace FUNCTION-placeholder with functions
+    if [[ -n "${templatefuncs[@]}" ]]; then
+        insertfunctions=""
+        for func in "${!templatefuncs[@]}"; do
+            #cat from function-file and replace placeholder
+            templatefunction="$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)"
+            templatefunction=$(echo "$templatefunction" | sed -e "s/FUNCTIONNAME/"${templatefuncs["$func"]}"/g")
+            insertfunctions="$insertfunctions\n\n$templatefunction"
+        done
+        printf "$insertfunctions\n"
+        #replace functions-placeholder with actual functions
+        sed -e "s@FUNCTIONS@$(eval $printit)@g" -i "$1"
+    fi
+
+    #Replace values from profile
     for profilepreset in $profilepresets; do
         sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
     done
