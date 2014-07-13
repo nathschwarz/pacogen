@@ -21,7 +21,7 @@ done
 shift $((OPTIND-1))
 
 #Print help, then exit
-if [[ -n $printhelp ]]; then
+if [[ -n "$printhelp" ]]; then
     printf "PaCoGen - passive code generator\n"
     printf "\t-t\tName of the template to use\n"
     printf "\t-p\tName of the profile to use\n"
@@ -34,16 +34,16 @@ fi
 #Initiate default values for variables
 filename=${1%.*}
 fileextension=${1##*.}
-if [[ -z $templatename ]]; then
+if [[ -z "$templatename" ]]; then
     templatename="template"
 fi
-if [[ -z $profilename ]]; then
+if [[ -z "$profilename" ]]; then
     profilename="default"
 fi
-if [[ -z $PACOGEN_PROFILES ]]; then
+if [[ -z "$PACOGEN_PROFILES" ]]; then
     PACOGEN_PROFILES="~/pacogen"
 fi
-if [[ -z $PACOGEN_TEMPLATES ]]; then
+if [[ -z "$PACOGEN_TEMPLATES" ]]; then
     PACOGEN_TEMPLATES="~/pacogen/templates"
 fi
 
