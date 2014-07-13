@@ -119,6 +119,8 @@ public class test {
 ```
 And you have a complete java-class prepared, ready to start coding!
 
+PaCoGen won't touch the variable `FUNCTIONS`, even if it's in the template, as long as no flag `-f` is set. `-f` takes a single argument, containing the type of function to add and the name, the function will get. The type is determined by the name of the template: `$functiontype.function.$fileextension`.
+
 ##Define folders for profiles and templates
 If you want to use your own folders (e.g. because you are syncing your configuration-files via your own git), you can export the variables `PACOGEN_PROFILES` and `PACOGEN_TEMPLATES` in your shell configuration file:
 ```shell
