@@ -41,10 +41,10 @@ if [[ -z "$profilename" ]]; then
     profilename="default"
 fi
 if [[ -z "$PACOGEN_PROFILES" ]]; then
-    PACOGEN_PROFILES="~/pacogen"
+    PACOGEN_PROFILES="$HOME/pacogen"
 fi
 if [[ -z "$PACOGEN_TEMPLATES" ]]; then
-    PACOGEN_TEMPLATES="~/pacogen/templates"
+    PACOGEN_TEMPLATES="$HOME/pacogen/templates"
 fi
 
 #Source profile-information
@@ -58,7 +58,7 @@ else
 fi
 
 #Copy template file to target and replace placeholders with info
-templatefile="$PACOGEN_TEMPLATES"/"$templatename"."$fileextension"
+templatefile="$PACOGEN_TEMPLATES"/"$templatename.$fileextension"
 if [[ ! -e "$templatefile" ]]; then
     printf "Template file %s in %s not found, exiting.\n" "$templatename" "$PACOGEN_TEMPLATES"
     exit
@@ -85,7 +85,7 @@ else
         for func in "${!templatefuncs[@]}"; do
             #cat from function-file and replace placeholder
             cat "$PACOGEN_TEMPLATES/$func.function.$fileextension" >> "$1"
-            sed -e "s/FUNCTIONNAME/"${templatefuncs["$func"]}"/g" -i "$1"
+            sed -e "s/FUNCTIONNAME/${templatefuncs["$func"]}/g" -i "$1"
         done
     fi
 
