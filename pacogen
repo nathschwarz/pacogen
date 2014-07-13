@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Author:   Nathan Schwarz
+# Mail:     nathan.notwhite@gmail.com
+# Github:   github.com/nathschwarz
+# Jabber:   nath_schwarz@jabber.de
+
+#Initiate default values for variables
+filename=$(echo $1 | cut -d . -f 1)
+fileextension=$(echo $1 | cut -d . -f 2)
+templatename="template"
+profilename="default"
+
+
+
+#Source profile-information
+source "$profilename".profile
+
+#Get the whole thing together
+printf "" > $1
+IFS=''
+while read line; do
+    printf "%s\n" $(eval echo "$line" 2>/dev/null || echo "$line") >> $1
+done < ~/prog/pacogen/templates/"$templatename"."$fileextension"
