@@ -1,6 +1,6 @@
     /*
-     * Get FUNCTIONNAME.
+     * Get %%FUNCTIONNAME%%.
      */
-    public int getFUNCTIONNAME(String[] args) {
-        return FUNCTIONNAME;
+    public int get%%FUNCTIONNAME%%(String[] args) {
+        return %%FUNCTIONNAME%%;
     }
