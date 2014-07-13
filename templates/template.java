@@ -6,5 +6,4 @@ LICENSE
  * @version 0.1
  */
 public class FILENAME {
-FUNCTIONS
-}
+

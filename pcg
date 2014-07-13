@@ -80,16 +80,16 @@ else
 
     #If function-flag is set, replace FUNCTION-placeholder with functions
     if [[ -n "${templatefuncs[@]}" ]]; then
-        insertfunctions=""
         for func in "${!templatefuncs[@]}"; do
             #cat from function-file and replace placeholder
-            templatefunction="$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)"
-            templatefunction=$(echo "$templatefunction" | sed -e "s/FUNCTIONNAME/"${templatefuncs["$func"]}"/g")
-            insertfunctions="$insertfunctions\n\n$templatefunction"
+            cat "$PACOGEN_TEMPLATES/$func.function.$fileextension" >> "$1"
+            sed -e "s/FUNCTIONNAME/"${templatefuncs["$func"]}"/g" -i "$1"
         done
-        printf "$insertfunctions\n"
-        #replace functions-placeholder with actual functions
-        sed -e "s@FUNCTIONS@$(eval $printit)@g" -i "$1"
+    fi
+
+    #Add ending of templatefile, needed for templates for e.g. java
+    if [[ -f "$templatefile".end ]]; then
+        cat "$templatefile".end >> "$1"
     fi
 
     #Replace values from profile
