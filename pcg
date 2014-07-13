@@ -28,7 +28,6 @@ fi
 
 #Initiate default values for variables
 filename=$(echo "$1" | cut -d . -f 1)
-FILENAME=$filename
 fileextension=$(echo "$1" | cut -d . -f 2)
 if [[ -z $templatename ]]; then
     templatename="template"
@@ -59,7 +58,21 @@ if [[ ! -e "$templatefile" ]]; then
     printf "Template file %s in %s not found, exiting.\n" "$templatename" "$PACOGEN_TEMPLATES"
     exit
 else
+    #Check if target file is present - if so prompt for overwrite
+    if [[ -f "$1" ]]; then
+        printf "File %s already exists - overwrite?\n" "$1"
+        read answer
+        #If prompt-result is 'y' overwrite and proceed - exit otherwise
+        if [[ "$answer" = "y" ]]; then
+            printf "Overwrite file %s, proceeding.\n" "$1"
+        else
+            printf "Not overwriting %s, exiting.\n" "$1"
+            exit
+        fi
+    fi
     cp "$templatefile" "$1"
+    #Check for 'FILENAME' in template-file 
+    sed -e "s/FILENAME/$(echo $filename)/g" -i "$1"
     for profilepreset in $profilepresets; do
         sed -e "s/$profilepreset/$(eval echo \$$profilepreset)/g" -i "$1" 
     done
