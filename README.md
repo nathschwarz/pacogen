@@ -69,8 +69,6 @@ These function templates can also inherit documentation, calls to profile variab
 
 Lets look at an example, we have the template `template.java`:
 ```java
-LICENSE
-
 /*
  * What is this class good for?
  * @author AUTHORNAME
@@ -98,8 +96,6 @@ and `get.function.java`:
 ```
 See how the placeholder is directly together with the get? This comes into play in a mintue. Now we run the command `pcg -f main:main -f get:runner output.java` - and output.java now contains this:
 ```java
-# GPLv2
-
 /*
  * What is this class good for?
  * @author Some Name
