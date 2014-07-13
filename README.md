@@ -61,7 +61,7 @@ As you can see, the filename is being parsed from the input to PaCoGen and can b
 
 PaCoGen will choose `template.$fileextension`, unless `-t` is defined. In that case `$templatename.$fileextension` is being used. Valid input for `-t` are the files within the templates-folder.
 
-If a file `$templatename.$fileextension.end` is defined, this will concatenanted to the new file before the last variables are substituted. This is crucial for templates for e.g. java, which needs a closing curly bracket.
+If a file `$templatename.$fileextension.end` is defined, it will be concatenanted to the new file before the last variables are substituted. This is crucial for templates for e.g. java, which needs a closing curly bracket.
 
 ##Functions
 You can also define template functions: `$functionname.function.$fileextensions`.
