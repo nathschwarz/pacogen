@@ -33,7 +33,7 @@ AUTHORNAME="Some Name"
 AUTHORMAIL="some.name@gmail.com"
 ```
 The difference is, that the first one will use the variables as bash-variables. The second one lets PaCoGen replace the placeholders (we'll come to those in a minute) with the correct content. The placeholders need to be placed before the variables they are representing, while the bash-variables have to placed afterwards.
-Also, you can insert content from files using `$(< FILENAME)`. If it is a single string it should be defined directly in the profile, if it contains multiple lines, importing it from a file is much more readable.
+Also, you can insert content from files using `$(< FILENAME)`. If it is a single string it should be defined directly in the profile, if it contains multiple lines, importing it from a file is much more readable. This can be done, because the profile will be sourced - this means you can even write a function and call it to set a variable. Something like `COMPUTER=$(< /etc/hostname)` would also be possible, to include the name of the computer, on which you're creating the file. 
 
 PaCoGen will use `default.profile` (or the file that is symlinked to `default.profile`), unless `-p` is defined. Valid input for `-p` are the `.profile`-files in the main-folder of pathogen.
 
