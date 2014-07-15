@@ -90,7 +90,6 @@ else
     fi
     file=${file//"##FUNCTIONS##"/$templatefunctions}
 
-
     #Replace values from profile
     for profilepreset in $profilepresets; do
         file=${file//"##$profilepreset##"/$(eval echo \$$profilepreset)}
