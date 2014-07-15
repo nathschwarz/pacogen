@@ -76,26 +76,25 @@ else
         fi
     fi
 
-    cp "$templatefile" "$1"
+    file=$(< "$templatefile")
     #Check for 'FILENAME' in template-file 
-    sed -e "s/%%FILENAME%%/$filename/g" -i "$1"
+    file=${file//"%%FILENAME%%"/$filename/}
 
     #If function-flag is set, replace FUNCTION-placeholder with functions
     if [[ -n "${templatefuncs[@]}" ]]; then
+        templatefunctions=""
         for func in "${!templatefuncs[@]}"; do
-            #cat from function-file and replace placeholder
-            cat "$PACOGEN_TEMPLATES/$func.function.$fileextension" >> "$1"
-            sed -e "s/%%FUNCTIONNAME%%/${templatefuncs["$func"]}/g" -i "$1"
+            templatefunctions="$templatefunctions$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)\n\n"
+            templatefunctions=${templatefunctions//"%%FUNCTIONNAME%%"/${templatefuncs["$func"]}}
         done
+        file=${file//"%%FUNCTIONS%%"/$templatefunctions}
     fi
 
-    #Add ending of templatefile, needed for templates for e.g. java
-    if [[ -f "$templatefile".end ]]; then
-        cat "$templatefile".end >> "$1"
-    fi
 
     #Replace values from profile
     for profilepreset in $profilepresets; do
-        sed -e "s/%%$profilepreset%%/$(eval echo \$$profilepreset)/g" -i "$1" 
+        file=${file//"%%$profilepreset%%"/$(eval echo \$$profilepreset)/}
     done
+    #Write everything to file
+    printf "$file" > "$1"
 fi

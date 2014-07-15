@@ -4,6 +4,8 @@
 
 %%CLASSDOC%%
 
+%%FUNCTIONS%%
+
 def main():
     
 
