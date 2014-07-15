@@ -1,5 +1,4 @@
-LICENSE="# GPLv2"
+LICENSE=$(< SMALLICENSE)
+AUTHORSHIP="##AUTHORNAME## (##AUTHORMAIL##)"
 AUTHORNAME="Some Name"
 AUTHORMAIL="some.name@gmail.com"
-AUTHORSHIP="# Author: $AUTHORNAME\n# Mail: $AUTHORMAIL"
-CLASSDOC="# Something to describe the class"

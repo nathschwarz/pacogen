@@ -1,5 +1,5 @@
-LICENSE="# Proprietary Stuff"
+LICENSE="Proprietary Stuff"
+AUTHORSHIP="##AUTHORNAME## (##AUTHORMAIL##)"
 AUTHORNAME="Some Name"
 AUTHORMAIL="some.name@companyname.com"
-AUTHORSHIP="# Author: $AUTHORNAME\n# Mail: $AUTHORMAIL"
-CLASSDOC="# Something to describe the class and gossipping about bullshit the manager said"
+PREPDOC="Prepared/preconfigured documentation and gossipping about bullshit the manager said"
