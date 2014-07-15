@@ -14,21 +14,35 @@ PaCoGen works with just one input - the file that should be created. This input 
 ##Profiles
 Create a file with your profile - e.g. one for work and one for your private projects. These can look like this:
 ```shell
-LICENSE="# GPLv2"
+LICENSE=$(< SMALLLICENSE)
 AUTHORNAME="Some Name"
 AUTHORMAIL="some.name@gmail.com"
-AUTHORSHIP="# Author: $AUTHORNAME\n# Mail: $AUTHORMAIL"
 ```
-As you can see you can define recurring variables and call them after defining - they work just like any other shell variables (as they are just shell variables). If you have a short version of your license (or generally a short license) you can even define this license and use `$(cat LICENSE)` or `$(cat SMALLLICENSE)`.
+You can define your own variables, PaCoGen will insert them in to the code - You can even repeat them to fill another variable within the profile. There are two ways to do this:
+```shell
+LICENSE=$(< SMALLLICENSE)
+AUTHORNAME="Some Name"
+AUTHORMAIL="some.name@gmail.com"
+AUTHORSHIP="$AUTHORNAME ($AUTHORMAIL)"
+```
+or
+```shell
+LICENSE=$(< SMALLLICENSE)
+AUTHORSHIP="##AUTHORNAME## (##AUTHORMAIL##)"
+AUTHORNAME="Some Name"
+AUTHORMAIL="some.name@gmail.com"
+```
+The difference is, that the first one will use the variables as bash-variables. The second one lets PaCoGen replace the placeholders (we'll come to those in a minute) with the correct content. The placeholders need to be placed before the variables they are representing, while the bash-variables have to placed afterwards.
+Also, you can insert content from files using `$(< FILENAME)`. If it is a single string it should be defined directly in the profile, if it contains multiple lines, importing it from a file is much more readable.
 
-PaCoGen will use the file symlinked to default.profile, unless `-p` is defined. Valid input for `-p` are the `.profile`-files in the main-folder of pathogen.
+PaCoGen will use `default.profile` (or the file that is symlinked to `default.profile`), unless `-p` is defined. Valid input for `-p` are the `.profile`-files in the main-folder of pathogen.
 
 ##Templates
-Templates are extremely easy - they are just like your typical code file, just that you can call the variables defined in your profile. A python template would look something like this:
-```shell
-LICENSE
+Templates are extremely easy - they are just like your typical code file, just that you can call the variables defind in the profiles using placeholders - which are the name of the variable surrounded with two hash marks. A python template would look something like this:
+```python
+# ##LICENSE##
 
-AUTHORSHIP
+# ##AUTHORSHIP##
 
 def main():
     
@@ -36,19 +50,30 @@ def main():
 if  __name__ =='__main__':
     main()
 ```
-So here, `LICENSE` and `AUTHORSHIP` will be replaced with the content defined in your profile-file. 
+If we run `pcg newFile.py`, `##LICENSE##` and `##AUTHORSHIP##` will be replaced with the content defined in your profile-file. Note that you have to comment the placeholders out, if the content should be commented. It would look like this:
+```python
+# GPLv2
+
+# Some Name (some.name@gmail.com)
+
+def main():
+    
+
+if  __name__ =='__main__':
+    main()
+```
+Since `LICENSE=$(< SMALLLICENSE)`, while `SMALLLICENSE` contains `GPLv2` and `AUTHORSHIP` contained the placeholders or variables for `AUTHORNAME` and `AUTHORMAIL`.
+
 Want to create a class for java?
 ```java
-LICENSE
-
-IMPORTS
+// ##LICENSE##
 
 /*
  * What is this class good for?
- * @author AUTHORNAME
+ * @author ##AUTHORSHIP##
  * @version 0.1
  */
-public class FILENAME {
+public class ##FILENAME## {
     /*
      * Describe what's going on in the main-method.
      */
@@ -57,44 +82,62 @@ public class FILENAME {
     }
 }
 ```
+If the above is our `template.java` we can run `pcg test.java`, which creates this:
+```java
+// GPLv2
+
+/*
+ * What is this class good for?
+ * @author Some Name (some.name@gmail.com)
+ * @version 0.1
+ */
+public class test {
+    /*
+     * Describe what's going on in the main-method.
+     */
+    public static void main(String[] args) {
+
+    }
+}
+```
 As you can see, the filename is being parsed from the input to PaCoGen and can be used as a variable for the template-files.
 
 PaCoGen will choose `template.$fileextension`, unless `-t` is defined. In that case `$templatename.$fileextension` is being used. Valid input for `-t` are the files within the templates-folder.
 
-If a file `$templatename.$fileextension.end` is defined, it will be concatenanted to the new file before the last variables are substituted. This is crucial for templates for e.g. java, which needs a closing curly bracket.
-
 ##Functions
-You can also define template functions: `$functionname.function.$fileextensions`.
-These function templates can also inherit documentation, calls to profile variables and get either a generic name or make use of the `FUNCTIONNAME` variable.
+As mentioned earlier, we can also define template functions: `$functionname.function.$fileextensions`.
+These function templates can also inherit placeholders and get either a generic name or make use of the `##FUNCTIONNAME##` placeholder.
 
 Lets look at an example, we have the template `template.java`:
 ```java
 /*
  * What is this class good for?
- * @author AUTHORNAME
+ * @author ##AUTHORNAME##
  * @version 0.1
  */
-public class FILENAME {
+public class ##FILENAME## {
+##FUNCTIONS##
+}
 ```
-The end-file `template.java.end` containing just a `}`, the function files `main.function.java`:
+The function files `main.function.java`:
 ```java
     /*
      * Describe what's going on in the main-method.
      */
-    public static void FUNCTIONNAME(String[] args) {
+    public static void ##FUNCTIONNAME##(String[] args) {
          
     }
 ```
 and `get.function.java`:
 ```java
     /*
-     * Get FUNCTIONNAME.
+     * Get ##FUNCTIONNAME##.
      */
-    public int getFUNCTIONNAME(String[] args) {
-        return FUNCTIONNAME;
+    public int get##FUNCTIONNAME##(String[] args) {
+        return ##FUNCTIONNAME##;
     }
 ```
-See how the placeholder is directly together with the get? This comes into play in a mintue. Now we run the command `pcg -f main:main -f get:runner output.java` - and output.java now contains this:
+See how the placeholder is directly together with the get? This comes into play in a minute. Now we run the command `pcg -f main:main -f get:runner output.java` - and output.java now contains this:
 ```java
 /*
  * What is this class good for?
@@ -119,7 +162,7 @@ public class test {
 ```
 And you have a complete java-class prepared, ready to start coding!
 
-PaCoGen won't touch the variable `FUNCTIONS`, even if it's in the template, as long as no flag `-f` is set. `-f` takes a single argument, containing the type of function to add and the name, the function will get. The type is determined by the name of the template: `$functiontype.function.$fileextension`.
+PaCoGen will remove ##FUNCTIONS## if no function were defined to add.
 
 ##Define folders for profiles and templates
 If you want to use your own folders (e.g. because you are syncing your configuration-files via your own git), you can export the variables `PACOGEN_PROFILES` and `PACOGEN_TEMPLATES` in your shell configuration file:
