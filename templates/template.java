@@ -1,10 +1,10 @@
-%%LICENSE%%
+##LICENSE##
 
 /*
  * What is this class good for?
- * @author %%AUTHORNAME%%
+ * @author ##AUTHORNAME##
  * @version 0.1
  */
-public class %%FILENAME%% {
-%%FUNCTIONS%%
+public class ##FILENAME## {
+##FUNCTIONS##
 }

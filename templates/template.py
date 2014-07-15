@@ -1,10 +1,8 @@
-%%LICENSE%%
+# ##LICENSE##
 
-%%AUTHORSHIP%%
+# ##AUTHORSHIP##
 
-%%CLASSDOC%%
-
-%%FUNCTIONS%%
+##FUNCTIONS##
 
 def main():
     

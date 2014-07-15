@@ -1,2 +1,2 @@
-def %%FUNCTIONNAME%%(str incoming):
+def ##FUNCTIONNAME##(str incoming):
     print incoming
