@@ -78,22 +78,22 @@ else
 
     file=$(< "$templatefile")
     #Check for 'FILENAME' in template-file 
-    file=${file//"%%FILENAME%%"/$filename/}
+    file=${file//"##FILENAME##"/$filename}
 
     #If function-flag is set, replace FUNCTION-placeholder with functions
+    templatefunctions=""
     if [[ -n "${templatefuncs[@]}" ]]; then
-        templatefunctions=""
         for func in "${!templatefuncs[@]}"; do
             templatefunctions="$templatefunctions$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)\n\n"
-            templatefunctions=${templatefunctions//"%%FUNCTIONNAME%%"/${templatefuncs["$func"]}}
+            templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]}}
         done
-        file=${file//"%%FUNCTIONS%%"/$templatefunctions}
     fi
+    file=${file//"##FUNCTIONS##"/$templatefunctions}
 
 
     #Replace values from profile
     for profilepreset in $profilepresets; do
-        file=${file//"%%$profilepreset%%"/$(eval echo \$$profilepreset)/}
+        file=${file//"##$profilepreset##"/$(eval echo \$$profilepreset)}
     done
     #Write everything to file
     printf "$file" > "$1"
