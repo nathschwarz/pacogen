@@ -53,8 +53,12 @@ if [[ ! -e "$profilefile" ]]; then
     printf "Profile file %s in %s not found, exiting.\n" "$profilename" "$PACOGEN_PROFILES"
     exit
 else
-    source "$profilefile"
-    profilepresets=$(cut -s -d= -f1 "$profilefile")
+    #decalre dictionary for presets
+    declare -A profilepresets
+    while read line; do
+        #read presets and substitute them from current line
+        profilepresets[${line%=*}]=${line##*=} 
+    done < "$profilefile"
 fi
 
 #Copy template file to target and replace placeholders with info
@@ -76,6 +80,7 @@ else
         fi
     fi
 
+    #Read template into file for substitutions
     file=$(< "$templatefile")
     #Check for 'FILENAME' in template-file 
     file=${file//"##FILENAME##"/$filename}
@@ -84,16 +89,23 @@ else
     templatefunctions=""
     if [[ -n "${templatefuncs[@]}" ]]; then
         for func in "${!templatefuncs[@]}"; do
+            # Concatenate functions indicated by function-flag
             templatefunctions="$templatefunctions$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)\n\n"
+            # Substitute FUNCTIONSNAME-flag with functionname indicated by flag
             templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]}}
         done
     fi
-    file=${file//"##FUNCTIONS##"/$templatefunctions}
-
+    #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
+    file=${file/"##FUNCTIONS##"/$templatefunctions}
+    
     #Replace values from profile
-    for profilepreset in $profilepresets; do
-        file=${file//"##$profilepreset##"/$(eval echo \$$profilepreset)}
+    #Check if there are placeholders and substitute as long as placeholders are there
+    while [[ "$file" =~ \#\#[[:upper:]]+\#\# ]]; do
+        for profilepreset in "${!profilepresets[@]}"; do
+            file=${file//"##$profilepreset##"/"${profilepresets[$profilepreset]}"}
+        done
     done
+
     #Write everything to file
     printf "$file" > "$1"
 fi

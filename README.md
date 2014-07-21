@@ -14,26 +14,12 @@ PaCoGen works with just one input - the file that should be created. This input 
 ##Profiles
 Create a file with your profile - e.g. one for work and one for your private projects. These can look like this:
 ```shell
-LICENSE=$(< SMALLLICENSE)
-AUTHORNAME="Some Name"
-AUTHORMAIL="some.name@gmail.com"
+LICENSE=GPLv2
+AUTHORSHIP=##AUTHORNAME## (##AUTHORMAIL##)
+AUTHORNAME=Some Name
+AUTHORMAIL=some.name@gmail.com
 ```
-You can define your own variables, PaCoGen will insert them in to the code - You can even repeat them to fill another variable within the profile. There are two ways to do this:
-```shell
-LICENSE=$(< SMALLLICENSE)
-AUTHORNAME="Some Name"
-AUTHORMAIL="some.name@gmail.com"
-AUTHORSHIP="$AUTHORNAME ($AUTHORMAIL)"
-```
-or
-```shell
-LICENSE=$(< SMALLLICENSE)
-AUTHORSHIP="##AUTHORNAME## (##AUTHORMAIL##)"
-AUTHORNAME="Some Name"
-AUTHORMAIL="some.name@gmail.com"
-```
-The difference is, that the first one will use the variables as bash-variables. The second one lets PaCoGen replace the placeholders (we'll come to those in a minute) with the correct content. The placeholders need to be placed before the variables they are representing, while the bash-variables have to placed afterwards.
-Also, you can insert content from files using `$(< FILENAME)`. If it is a single string it should be defined directly in the profile, if it contains multiple lines, importing it from a file is much more readable. This can be done, because the profile will be sourced - this means you can even write a function and call it to set a variable. Something like `COMPUTER=$(< /etc/hostname)` would also be possible, to include the name of the computer, on which you're creating the file. 
+You can reuse placeholders, no matter where. You can use one before defining it, it will still be replaced with the content. But take care not to mess up with the names, or PaCoGen will throw an error.
 
 PaCoGen will use `default.profile` (or the file that is symlinked to `default.profile`), unless `-p` is defined. Valid input for `-p` are the `.profile`-files in the main-folder of pathogen.
 
@@ -62,7 +48,6 @@ def main():
 if  __name__ =='__main__':
     main()
 ```
-Since `LICENSE=$(< SMALLLICENSE)`, while `SMALLLICENSE` contains `GPLv2` and `AUTHORSHIP` contained the placeholders or variables for `AUTHORNAME` and `AUTHORMAIL`.
 
 Want to create a class for java?
 ```java
