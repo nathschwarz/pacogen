@@ -168,8 +168,7 @@ All roads lead to rome:
 
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
 
-##I need help
-###installing/using/extending PaCoGen or I want to give constructive criticsm!
+##Contact
 There are multiple ways to reach me, the best are these:
 * eMail: nathan.notwhite@gmail.com
 * Freenode-IRC: `/msg nath_schwarz`
