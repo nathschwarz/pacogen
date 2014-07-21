@@ -156,14 +156,20 @@ export PACOGEN_PROFILES="$HOME/path/to/profiles"
 export PACOGEN_TEMPLATES="$HOME/path/to/templates"
 ```
 
-##Use PaCoGen everywhere
+#Use PaCoGen everywhere
 All roads lead to rome:
-* expand your PATH variable (`PATH="$PATH:$HOME/path/to/pacogen/folder/"`)
-* copy `pcg` to your `~/bin` or `/usr/bin`
-* create an alias `alias="~/path/to/patogen/script"`
-* create a symlink from your `~/bin` to pcg
+* expand your PATH variable (`PATH="$PATH:/path/to/pacogen/folder/"`)
+* copy `pcg` to your `~/bin` (if `~/bin is in your `PATH`) or `/usr/bin`
+* create an alias `alias="/path/to/patogen/script"`
+* create a symlink from your `~/bin` to pcg (if `~/bin` is in your `PATH`)
 * copy `pcg` into you shell configuration file
 * copy `pcg` into your `.functionsrc`
 * ...
 
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
+
+#I need help installing/using/extending PaCoGen or I want to give constructive criticsm!
+There are multiple ways to reach me, the best are these:
+* eMail: nathan.notwhite@gmail.com
+* Freenode-IRC: `/msg nath_schwarz`
+* Or file an issue here on github.
