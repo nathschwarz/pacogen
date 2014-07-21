@@ -97,7 +97,7 @@ else
     fi
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
     file=${file/"##FUNCTIONS##"/$(printf "$templatefunctions")}
-    
+
     #Replace values from profile
     #Check if there are placeholders and substitute as long as placeholders are there
     while [[ "$file" =~ \#\#[[:upper:]]+\#\# ]]; do
