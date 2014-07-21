@@ -47,7 +47,7 @@ if [[ -z "$PACOGEN_TEMPLATES" ]]; then
     PACOGEN_TEMPLATES="$HOME/pacogen/templates"
 fi
 
-#Source profile-information
+#Parse profile-information
 profilefile="$PACOGEN_PROFILES"/"$profilename".profile 
 if [[ ! -e "$profilefile" ]]; then
     printf "Profile file %s in %s not found, exiting.\n" "$profilename" "$PACOGEN_PROFILES"
@@ -90,7 +90,7 @@ else
     if [[ -n "${templatefuncs[@]}" ]]; then
         for func in "${!templatefuncs[@]}"; do
             # Concatenate functions indicated by function-flag
-            templatefunctions="$templatefunctions$(< $PACOGEN_TEMPLATES/$func.function.$fileextension)\n\n"
+            templatefunctions="$templatefunctions$(< "$PACOGEN_TEMPLATES/$func.function.$fileextension")\n\n"
             # Substitute FUNCTIONSNAME-flag with functionname indicated by flag
             templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]}}
         done
@@ -107,5 +107,5 @@ else
     done
 
     #Write everything to file
-    printf "$file" > "$1"
+    printf "%s" "$file" > "$1"
 fi
