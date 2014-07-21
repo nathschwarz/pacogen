@@ -147,6 +147,8 @@ public class test {
 ```
 And you have a complete java-class prepared, ready to start coding!
 
+The parameters for the function-flag is set as `$functiontemplatename:$functionname` - means the the string in front of the colon (`$functiontemplatename`) is the name of the template-file in your templates-folder (e.g. `get.function.java`. The string after the colon (`$functionname`) determines the name of the function in the generated file.
+
 PaCoGen will remove ##FUNCTIONS## if no function were defined to add.
 
 ###Define folders for profiles and templates
