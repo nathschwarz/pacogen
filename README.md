@@ -4,14 +4,14 @@ PaCoGen - Passive Code Generator
 The PaCoGen ist meant to do ease the creation of new code-files.
 You define placeholders in your profile and call them later in your template-files. No duplication, no need to update a bunch of templates. Change the variable and that's it - any future created document will have the updated version.
 
-##Why bash?
+###Why bash?
 Because I can. That's why.
 
-#How to use
-##Input
+##How to use
+###Input
 PaCoGen works with just one input - the file that should be created. This input is parsed in the form of `$filename.$fileextension`.
 
-##Profiles
+###Profiles
 Create a file with your profile - e.g. one for work and one for your private projects. These can look like this:
 ```shell
 LICENSE=GPLv2
@@ -23,7 +23,7 @@ You can reuse placeholders, no matter where. You can use one before defining it,
 
 PaCoGen will use `default.profile` (or the file that is symlinked to `default.profile`), unless `-p` is defined. Valid input for `-p` are the `.profile`-files in the main-folder of pathogen.
 
-##Templates
+###Templates
 Templates are extremely easy - they are just like your typical code file, just that you can call the variables defind in the profiles using placeholders - which are the name of the variable surrounded with two hash marks. A python template would look something like this:
 ```python
 # ##LICENSE##
@@ -89,7 +89,7 @@ As you can see, the filename is being parsed from the input to PaCoGen and can b
 
 PaCoGen will choose `template.$fileextension`, unless `-t` is defined. In that case `$templatename.$fileextension` is being used. Valid input for `-t` are the files within the templates-folder.
 
-##Functions
+###Functions
 As mentioned earlier, we can also define template functions: `$functionname.function.$fileextensions`.
 These function templates can also inherit placeholders and get either a generic name or make use of the `##FUNCTIONNAME##` placeholder.
 
@@ -149,14 +149,14 @@ And you have a complete java-class prepared, ready to start coding!
 
 PaCoGen will remove ##FUNCTIONS## if no function were defined to add.
 
-##Define folders for profiles and templates
+###Define folders for profiles and templates
 If you want to use your own folders (e.g. because you are syncing your configuration-files via your own git), you can export the variables `PACOGEN_PROFILES` and `PACOGEN_TEMPLATES` in your shell configuration file:
 ```shell
 export PACOGEN_PROFILES="$HOME/path/to/profiles"
 export PACOGEN_TEMPLATES="$HOME/path/to/templates"
 ```
 
-#Use PaCoGen everywhere
+##Use PaCoGen everywhere
 All roads lead to rome:
 * expand your PATH variable (`PATH="$PATH:/path/to/pacogen/folder/"`)
 * copy `pcg` to your `~/bin` (if `~/bin is in your `PATH`) or `/usr/bin`
@@ -168,7 +168,7 @@ All roads lead to rome:
 
 Just be shure to have the shell variables exported, if pacogen doesn't reside in `~/pacogen/`.
 
-#I need help installing/using/extending PaCoGen or I want to give constructive criticsm!
+##I need help installing/using/extending PaCoGen or I want to give constructive criticsm!
 There are multiple ways to reach me, the best are these:
 * eMail: nathan.notwhite@gmail.com
 * Freenode-IRC: `/msg nath_schwarz`
