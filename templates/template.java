@@ -1,4 +1,4 @@
-##LICENSE##
+# ##LICENSE##
 
 /*
  * What is this class good for?
