@@ -8,7 +8,7 @@ You define placeholders in your profile and call them later in your template-fil
 This script should run solely with bash version 4 and upper.
 
 ###'Why Bash?'
-I chose to write PaCoGen in Bash to extend my knowdledge in its usage and scripting. Maybe it isn't as neat as it would be in another language, but that wasn't the target. However the make it actually usable is the second scope.
+I chose to write PaCoGen in Bash to extend my knowdledge in its usage and scripting. Maybe it isn't as neat as it would be in another language, but that wasn't the target. However to make it actually usable is the second scope.
 
 ##How to use
 ###Input
