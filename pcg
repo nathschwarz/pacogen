@@ -104,7 +104,7 @@ else
 
     #Replace values from profile
     #Check if there are placeholders and substitute as long as placeholders are there
-    while [[ "$file" =~ \#\#[[:upper:]]+\#\# ]]; do
+    for i in {1..5}; do #TODO: Find a better way to do this...
         for profilepreset in "${!profilepresets[@]}"; do
             file=${file//"##$profilepreset##"/"${profilepresets[$profilepreset]}"}
         done
