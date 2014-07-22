@@ -110,6 +110,10 @@ else
         done
     done
 
+    if [[ $file =~ \#\#[[:upper:]]+\#\# ]]; then
+        printf "There are unkown placeholders, check your profile and template-files!\n"
+    fi
+
     #Write everything to file
     printf "%s" "$file" > "$1"
 fi
