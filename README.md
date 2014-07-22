@@ -4,8 +4,10 @@ PaCoGen - Passive Code Generator
 The PaCoGen ist meant to do ease the creation of new code-files.
 You define placeholders in your profile and call them later in your template-files. No duplication, no need to update a bunch of templates. Change the content of the placeholder and that's it - any future created document will have the updated version.
 
-###'Why bash?' or Requirements
-Because I can. That's why. And this script should run solely with bash v4+
+###'Why Bash?' or Requirements
+This script should run solely with bash version 4 and upper.
+
+I chose to write PaCoGen in Bash to extend my knowdledge in its usage and scripting. Maybe it isn't as neat as it would be in another language, but that wasn't the target. However the make it actually usable is the second scope.
 
 ##How to use
 ###Input
