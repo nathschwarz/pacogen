@@ -89,10 +89,14 @@ else
     templatefunctions=""
     if [[ -n "${templatefuncs[@]}" ]]; then
         for func in "${!templatefuncs[@]}"; do
-            # Concatenate functions indicated by function-flag
+            #Concatenate functions indicated by function-flag
             templatefunctions="$templatefunctions$(< "$PACOGEN_TEMPLATES/$func.function.$fileextension")\n\n"
-            # Substitute FUNCTIONSNAME-flag with functionname indicated by flag
-            templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]}}
+
+            #Substitute FUNCTIONSNAME-flag with functionname indicated by flag
+            #First all with a preceding space
+            templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ ${templatefuncs["$func"]}}
+            #Then the remaining placeholders
+            templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]^}}
         done
     fi
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
