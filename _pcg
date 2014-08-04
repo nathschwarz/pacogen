@@ -1,0 +1,11 @@
+#compdef pcg
+
+
+
+_arguments -s \
+    '-t[templates]':templates:_templates \
+    '-p[profile]'
+
+_templates() {
+    _path_files -W $PACOGEN_TEMPLATES -g '^*(template|function)*'
+}
