@@ -1,11 +1,20 @@
 #compdef pcg
 
-
-
 _arguments -s \
     '-t[templates]':templates:_templates \
-    '-p[profile]'
+    '-p[profile]':profiles:_profiles \
+    '-f[function:name]':function:_functions \
+    '-h[help]' \
+    :'target file':_files
 
 _templates() {
-    _path_files -W $PACOGEN_TEMPLATES -g '^*(template|function)*'
+    _values $(ls -A $PACOGEN_TEMPLATES | grep -ivE "(function|template)" | cut -d. -f1) 
+}
+
+_profiles() {
+    _values $(ls -A $PACOGEN_PROFILES | grep -iE ".profile" | cut -d. -f1) 
+}
+
+_functions() {
+    _values $(ls -A $PACOGEN_TEMPLATES | grep -iE ".function." | cut -d. -f1) 
 }
