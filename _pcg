@@ -1,13 +1,14 @@
 #compdef pcg
 
 _arguments -s \
-    '-t[templates]':templates:_templates \
+    '-n[name of the target file]':_files \
+    '-t[template]':template:_template \
     '-p[profile]':profiles:_profiles \
-    '-f[function:name]':function:_functions \
+    '-f[function]':function:_functions:name \
     '-h[help]' \
     :'target file':_files
 
-_templates() {
+_template() {
     _values $(ls -A $PACOGEN_TEMPLATES | grep -ivE "(function|template)" | cut -d. -f1) 
 }
 
