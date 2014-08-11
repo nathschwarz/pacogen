@@ -13,7 +13,7 @@ do
    case $opt in
         t) templatename=$OPTARG;;
         p) profilename=$OPTARG;;
-        f) templatefuncs[${OPTARG%:*}]=${OPTARG##*:};; 
+        f) templatefuncs[${OPTARG% *}]=${OPTARG##* };; 
         h) printhelp=true;;
         *) printf "Unkown parameter.\n"; printhelp=true;;
    esac
