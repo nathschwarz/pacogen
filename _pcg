@@ -9,13 +9,13 @@ _arguments -s \
     :'target file':_files
 
 _template() {
-    _values $(ls -A $PACOGEN_TEMPLATES | grep -ivE "(function|template)" | cut -d. -f1) 
+    _values template $(ls -A $PACOGEN_TEMPLATES | grep -ivE "(function|template)" | cut -d. -f1) 
 }
 
 _profiles() {
-    _values $(ls -A $PACOGEN_PROFILES | grep -iE ".profile" | cut -d. -f1) 
+    _values profile $(ls -A $PACOGEN_PROFILES | grep -iE ".profile" | cut -d. -f1) 
 }
 
 _functions() {
-    _values $(ls -A $PACOGEN_TEMPLATES | grep -iE ".function." | cut -d. -f1) 
+    _values function $(ls -A $PACOGEN_TEMPLATES | grep -iE ".function." | cut -d. -f1) 
 }
