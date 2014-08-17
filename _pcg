@@ -5,6 +5,7 @@ _arguments -s \
     '-t[template]':template:_template \
     '-p[profile]':profiles:_profiles \
     '-f[function]':function:_functions:name \
+    '-c[content]':content:_files \
     '-h[help]' \
     :'target file':_files
 

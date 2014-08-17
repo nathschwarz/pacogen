@@ -8,12 +8,13 @@
 #Initialize templatefuncs-dictionary
 declare -A templatefuncs
 #Get options
-while getopts t:p:f:h opt
+while getopts t:p:f:c:h opt
 do
    case $opt in
         t) templatename=$OPTARG;;
         p) profilename=$OPTARG;;
         f) templatefuncs[${OPTARG% *}]=${OPTARG##* };; 
+        c) content=$OPTARG;;
         h) printhelp=true;;
         *) printf "Unkown parameter.\n"; printhelp=true;;
    esac
@@ -26,6 +27,7 @@ if [[ -n "$printhelp" ]]; then
     printf "\t-t\tName of the template to use\n"
     printf "\t-p\tName of the profile to use\n"
     printf "\t-f\tInclude a function: \$function:\$name\n"
+    printf "\t-c\tA file holding content that should replace the '##CONTENT##'-placeholder\n"
     printf "\t-h\tPrint this help\n"
 #    printf "\t-\t\n"
     exit
@@ -101,6 +103,19 @@ else
     fi
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
     file=${file/"##FUNCTIONS##"/$(printf "%s" "$templatefunctions")}
+
+    #if content-flag is set, replace CONTENT-placeholder with content from file
+    if [[ -n "$content" ]]; then
+        if [[ ! "$content" =~ '~/' || "$content" =~ './' ]]; then
+            content="./$content"
+        fi
+        if [[ ! -f "$content" ]]; then
+            printf "Couldn't find the file specified with the content-flag.\n"
+        else
+            content=$(< "$content")
+            file=${file/"##CONTENT##"/$(printf "%s" "$content")}
+        fi
+    fi
 
     #Replace values from profile
     #Check if there are placeholders and substitute as long as placeholders are there
