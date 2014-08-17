@@ -161,6 +161,9 @@ export PACOGEN_PROFILES="$HOME/path/to/profiles"
 export PACOGEN_TEMPLATES="$HOME/path/to/templates"
 ```
 
+###Content-Flag
+There is a content flag '-c'. If you specified a content-placeholder ("##CONTENT##") in your template the file specified after this will be inserted at that location. I don't really know if this has a good use at all but hey - why not? 
+
 ##Use PaCoGen everywhere
 All roads lead to rome:
 * expand your PATH variable (`PATH="$PATH:/path/to/pacogen/folder/"`)
