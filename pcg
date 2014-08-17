@@ -92,13 +92,17 @@ else
     if [[ -n "${templatefuncs[@]}" ]]; then
         for func in "${!templatefuncs[@]}"; do
             #Concatenate functions indicated by function-flag
-            templatefunctions="$templatefunctions$(< "$PACOGEN_TEMPLATES/$func.function.$fileextension")\n\n"
-
-            #Substitute FUNCTIONSNAME-flag with functionname indicated by flag
-            #First all with a preceding space
-            templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ ${templatefuncs["$func"]}}
-            #Then the remaining placeholders
-            templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]^}}
+            templatefunction="$PACOGEN_TEMPLATES/$func.function.$fileextension"
+            if [[ -f "$templatefunction" ]]; then
+                templatefunctions="$templatefunctions$(< "$templatefunction")"
+                #Substitute FUNCTIONSNAME-flag with functionname indicated by flag
+                #First all with a preceding space
+                templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ ${templatefuncs["$func"]}}
+                #Then the remaining placeholders
+                templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]^}}
+            else
+                printf "Couldn't find function-file for $func: $func.function.$fileextension\n"
+            fi
         done
     fi
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
