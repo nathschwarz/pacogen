@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Author:   Nathan Schwarz
-# Mail:     nathan.notwhite@gmail.com
+# Mail:     nathan@notwhite.ro
 # Github:   github.com/nathschwarz
-# Jabber:   nath_schwarz@jabber.de
 
 #Initialize templatefuncs-dictionary
 declare -A templatefuncs
