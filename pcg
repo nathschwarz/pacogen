@@ -101,7 +101,7 @@ else
                 #Then the remaining placeholders
                 templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]^}}
             else
-                printf "Couldn't find function-file for $func: $func.function.$fileextension\n"
+                printf "Couldn't find function-file for $func: $func.function.$fileextension\nThis function won't show up, the target file is still created and filled.\n"
             fi
         done
     fi
@@ -114,7 +114,7 @@ else
             content="./$content"
         fi
         if [[ ! -f "$content" ]]; then
-            printf "Couldn't find the file specified with the content-flag.\n"
+            printf "Couldn't find the file specified with the content-flag.\nThe content won't show up, the target file is still created and filled.\n"
         else
             content=$(< "$content")
             file=${file/"##CONTENT##"/$(printf "%s" "$content")}
