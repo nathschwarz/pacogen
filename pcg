@@ -97,8 +97,7 @@ else
             if [[ -f "$templatefunction" ]]; then
                 templatefunction="$(< "$templatefunction")"
 
-                templateimport=${templatefunction#'##IMPORT##'}
-                templateimport=${templateimport%'##IMPORT##'*}
+                templateimport=${templatefunction%'##IMPORT##'*}
                 while read line; do
                     templateimports["$line"]=1
                 done <<< $templateimport

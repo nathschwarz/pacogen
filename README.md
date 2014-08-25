@@ -183,7 +183,6 @@ main() {
 ```
 And the function template `printf.function.c`:
 ```C
-##IMPORT##
 #include <stdio.h>
 ##IMPORT##
 
