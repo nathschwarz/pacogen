@@ -4,7 +4,7 @@ _arguments -s \
     '-n[name of the target file]':_files \
     '-t[template]':template:_template \
     '-p[profile]':profiles:_profiles \
-    '-f[function]':function:_functions:name \
+    '-f[function:name]':function:_functions:name \
     '-c[content]':content:_files \
     '-h[help]' \
     :'target file':_files
