@@ -225,6 +225,6 @@ Just be shure to have the shell variables exported, if pacogen doesn't reside in
 
 ##Contact
 There are multiple ways to reach me, the best are these:
-* eMail: nathan.notwhite@gmail.com
+* eMail: nathan@notwhite.ro
 * Freenode-IRC: `/msg nath_schwarz`
 * Or file an issue here on github.
