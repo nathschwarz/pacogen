@@ -12,7 +12,7 @@ do
    case $opt in
         t) templatename=$OPTARG;;
         p) profilename=$OPTARG;;
-        f) templatefuncs[${OPTARG% *}]=${OPTARG##* };; 
+        f) templatefuncs[${OPTARG##*:}]=${OPTARG%:*};; 
         c) content=$OPTARG;;
         h) printhelp=true;;
         *) printf "Unkown parameter.\n"; printhelp=true;;
@@ -88,22 +88,42 @@ else
 
     #If function-flag is set, replace FUNCTION-placeholder with functions
     templatefunctions=""
+    #Define import-set
+    declare -A templateimports
     if [[ -n "${templatefuncs[@]}" ]]; then
-        for func in "${!templatefuncs[@]}"; do
+        for funcname in "${!templatefuncs[@]}"; do
             #Concatenate functions indicated by function-flag
-            templatefunction="$PACOGEN_TEMPLATES/$func.function.$fileextension"
+            templatefunction="$PACOGEN_TEMPLATES/${templatefuncs[$funcname]}.function.$fileextension"
             if [[ -f "$templatefunction" ]]; then
-                templatefunctions="$templatefunctions$(< "$templatefunction")"
+                templatefunction="$(< "$templatefunction")"
+
+                templateimport=${templatefunction#'##IMPORT##'}
+                templateimport=${templateimport%'##IMPORT##'*}
+                while read line; do
+                    templateimports["$line"]=1
+                    echo -e $line
+                    echo -e ${templateimports[@]}
+                done <<< $templateimport
+
+                templatefunctions="$templatefunctions${templatefunction##*'##IMPORT##'}"
                 #Substitute FUNCTIONSNAME-flag with functionname indicated by flag
-                #First all with a preceding space
-                templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ ${templatefuncs["$func"]}}
+                templatefunctions=${templatefunctions//^"##FUNCTIONNAME"/"$funcname"}
+                #Second all with a preceding space
+                templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ "$funcname"}
                 #Then the remaining placeholders
-                templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${templatefuncs["$func"]^}}
+                templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${funcname^}}
             else
                 printf "Couldn't find function-file for $func: $func.function.$fileextension\nThis function won't show up, the target file is still created and filled.\n"
             fi
         done
     fi
+    fullimport=""
+    for templateimport in "${!templateimports[@]}"; do
+        fullimport="$fullimport$templateimport\n"
+    done;
+    echo $fullimport
+    #Substitute IMPORTS-flag with imports
+    file=${file/"##IMPORTS##"/$(printf "$fullimport")}
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
     file=${file/"##FUNCTIONS##"/$(printf "%s" "$templatefunctions")}
 
