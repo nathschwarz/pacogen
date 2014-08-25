@@ -122,7 +122,6 @@ else
     #Substitute IMPORTS-flag with imports
     file=${file/"##IMPORTS##"/$(printf "$fullimport")}
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
-    echo "$templatefunctions"
     file=${file/"##FUNCTIONS##"/$(printf "%s" "$templatefunctions")}
 
     #if content-flag is set, replace CONTENT-placeholder with content from file
