@@ -143,12 +143,12 @@ public class test {
     /*
      * Get runner.
      */
-    public int getrunner(String[] args) {
+    public int getRunner(String[] args) {
         return runner;
     }
 }
 ```
-And you have a complete java-class prepared, ready to start coding!
+And you have a complete java-class prepared, ready to start coding, the functionname is even in camelcase!
 
 The parameters for the function-flag is set as `$functiontemplatename:$functionname` - means the the string in front of the colon (`$functiontemplatename`) is the name of the template-file in your templates-folder (e.g. `get.function.java`. The string after the colon (`$functionname`) determines the name of the function in the generated file.
 
@@ -163,6 +163,54 @@ export PACOGEN_TEMPLATES="$HOME/path/to/templates"
 
 ###Content-Flag
 There is a content flag '-c'. If you specified a content-placeholder ("##CONTENT##") in your template the file specified after this will be inserted at that location. I don't really know if this has a good use at all but hey - why not? 
+
+###Import-Flag
+Functions also can have dependencies, e.g. 'printf()' in C needs stdio.h. So we have the template file `template.c`:
+```C
+##IMPORTS##
+
+/*
+ *  Author: ##AUTHORNAME##
+ *  Mail:   ##AUTHORMAIL##
+ *
+ */
+
+##FUNCTIONS##
+
+main() {
+
+}
+```
+And the function template `printf.function.c`:
+```C
+##IMPORT##
+#include <stdio.h>
+##IMPORT##
+
+##FUNCTIONNAME##() {
+    printf("This is a function!\n");
+}
+```
+Executing `pcg -f printf:outfunction test.c` gives us:
+```C
+#include <stdio.h>
+
+/*
+ *  Author: Nathan Schwarz
+ *  Mail:   nathan@notwhite.ro
+ *
+ */
+
+
+outfunction() {
+    printf("This is a function!\n");
+}
+
+main() {
+    
+}
+```
+And we are set. Also - It doesn't matter how often an import is defined in how many functions - it will always be called just once.
 
 ##Use PaCoGen everywhere
 All roads lead to rome:
