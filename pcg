@@ -110,7 +110,7 @@ else
                 #Then the remaining placeholders
                 templatefunctions=${templatefunctions//"##FUNCTIONNAME##"/${funcname^}}
             else
-                printf "Couldn't find function-file for $func: $func.function.$fileextension\nThis function won't show up, the target file is still created and filled.\n"
+                printf "Couldn't find function-file for %s: %s.function.%s\nThis function won't show up, the target file is still created and filled.\n" "$funcname" "$funcname" "$fileextension" 
             fi
         done
     fi
