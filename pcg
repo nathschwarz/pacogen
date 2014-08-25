@@ -101,13 +101,11 @@ else
                 templateimport=${templateimport%'##IMPORT##'*}
                 while read line; do
                     templateimports["$line"]=1
-                    echo -e $line
-                    echo -e ${templateimports[@]}
                 done <<< $templateimport
 
                 templatefunctions="$templatefunctions${templatefunction##*'##IMPORT##'}"
-                #Substitute FUNCTIONSNAME-flag with functionname indicated by flag
-                templatefunctions=${templatefunctions//^"##FUNCTIONNAME"/"$funcname"}
+                #First all at the start of line
+                templatefunctions=${templatefunctions//[^a-zA-Z ]"##FUNCTIONNAME##"/"$funcname"}
                 #Second all with a preceding space
                 templatefunctions=${templatefunctions//[[:space:]]"##FUNCTIONNAME##"/ "$funcname"}
                 #Then the remaining placeholders
@@ -121,10 +119,10 @@ else
     for templateimport in "${!templateimports[@]}"; do
         fullimport="$fullimport$templateimport\n"
     done;
-    echo $fullimport
     #Substitute IMPORTS-flag with imports
     file=${file/"##IMPORTS##"/$(printf "$fullimport")}
     #Substitute FUNCTIONS-flag with functions - if flag is not set it will be removed by nothing
+    echo "$templatefunctions"
     file=${file/"##FUNCTIONS##"/$(printf "%s" "$templatefunctions")}
 
     #if content-flag is set, replace CONTENT-placeholder with content from file
